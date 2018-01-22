@@ -17,6 +17,7 @@
 //==============================================================================
 
 #include <cstring>
+#include <stdexcept>
 #include "catch.hpp"
 #include <base58.hpp>
 
@@ -48,4 +49,19 @@ TEST_CASE("Base58 2") {
   auto t1{base58_decode(enc.data(), enc.size(), base58_encoding::bitcoin)};
   
   REQUIRE(memcmp(bin, t1.data(), 16) == 0);
+}
+
+TEST_CASE("Invalid base58") {
+  
+  using namespace uzerper;
+ 
+  try {
+    auto t1{base58_decode("1234567890", 10, base58_encoding::bitcoin)};
+    
+    REQUIRE(false);
+  }
+  catch (std::runtime_error &e) {
+    REQUIRE(e.what() == std::string("invalid base 58 character '0'"));
+  }
+  
 }

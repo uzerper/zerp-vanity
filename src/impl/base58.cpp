@@ -17,6 +17,8 @@
 //==============================================================================
 
 #include <cstring>
+#include <stdexcept>
+#include <string>
 #include "../base58.hpp"
 
 namespace uzerper {
@@ -106,6 +108,19 @@ static std::vector<uint8_t> decode_base_x(char const *bx, std::size_t bx_length,
   while (i < bx_length) {
     
     std::size_t j{0};
+    
+    char const *p{strchr(a.letters, bx[i])};
+    
+    if (p == nullptr) {
+      throw std::runtime_error(
+	std::string("invalid base ") 
+	+ std::to_string(base)
+	+ " character '"
+	+ bx[i]
+	+ "'"
+      );
+    }
+      
     carry = strchr(a.letters, bx[i]) - a.letters;
     
     while (!((carry == 0) && (j == b256_length))) {
