@@ -1,0 +1,1 @@
+This is a project for understanding and experimenting with Ripple addresses. The goal is to "roll my own" to a fairly large degree, and to generate Ripple vanity addresses. So far mostly some opaque interfaces to OpenSSL crypto routines.
