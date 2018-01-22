@@ -16,13 +16,23 @@
 */
 //==============================================================================
 
+#include <cstring>
 #include <sstream>
 #include <iomanip>
+#include <stdexcept>
 #include "bin_impl.hpp"
+#include "bignum_impl.hpp"
 
 namespace uzerper {
   
 bin_iface::~bin_iface() = default;
+
+bin_impl::~bin_impl() {
+  memset(data.data(), 0, data.size());
+}
+
+bin_impl::bin_impl(size_t n)
+  : data(n) {}
 
 uint8_t const *bin_impl::begin() const {
   return data.data();
@@ -46,6 +56,17 @@ std::string bin_impl::to_hex() const {
   
   return std::move(s);
     
+}
+
+bignum_const bin_impl::to_bignum() const {
+  
+  bignum_impl_ptr rv{std::make_shared<bignum_impl>(BN_bin2bn(data.data(), data.size(), nullptr))};
+  
+  if (!rv->bn) {
+    throw std::runtime_error("Error creating bignum");
+  }
+  
+  return rv;
 }
   
 }

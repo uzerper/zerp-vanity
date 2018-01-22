@@ -23,16 +23,19 @@
 
 namespace uzerper {
   
+class bignum_impl;
+
+using bignum_impl_ptr = std::shared_ptr<bignum_impl>;
+  
 class bignum_impl: public bignum_iface {
   
 public:
   
-  virtual ~bignum_impl() {
-    if (bn) {
-      BN_clear(bn);
-      BN_free((bn);
-    }
-  }
+  bignum_impl();
+  
+  bignum_impl(BIGNUM *bn);
+  
+  virtual ~bignum_impl();
   
   BIGNUM *bn;
   

@@ -16,12 +16,24 @@
 */
 //==============================================================================
 
-#include "../bignum.hpp"
+#include "bignum_impl.hpp"
 
 namespace uzerper {
  
 bignum_iface::~bignum_iface() = default;
 
+bignum_impl::bignum_impl()
+  : bn(nullptr) {}
+  
+bignum_impl::bignum_impl(BIGNUM *bn)
+  : bn(bn) {}
+
+bignum_impl::~bignum_impl() {
+  if (bn) {
+    BN_clear(bn);
+    BN_free(bn);
+  }
+}
 
   
 }
