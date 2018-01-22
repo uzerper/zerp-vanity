@@ -16,27 +16,15 @@
 */
 //==============================================================================
 
-#pragma once
+#include "catch.hpp"
+#include <ec.hpp>
 
-#include <string>
-#include "forward_decl.hpp"
-#include "bignum.hpp"
-
-namespace uzerper {
- 
-class bin_iface {
+TEST_CASE("secp256k1 order") {
   
-  public:
-    
-    virtual ~bin_iface();
-    
-    virtual uint8_t const *begin() const = 0;
-    
-    virtual size_t size() const = 0;
-    
-    virtual std::string to_hex() const = 0;
+  using namespace uzerper;
   
-    virtual bignum_const to_bignum() const = 0;
-};
+  REQUIRE(secp256k1()->get_order()->to_bin()->to_hex() == 
+    "fffffffffffffffffffffffffffffffebaaedce6af48a03bbfd25e8cd0364141"
+  );
   
 }

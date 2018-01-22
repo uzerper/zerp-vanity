@@ -18,25 +18,25 @@
 
 #pragma once
 
-#include <string>
-#include "forward_decl.hpp"
+#include <memory>
 #include "bignum.hpp"
 
 namespace uzerper {
  
-class bin_iface {
+class ec_curve_iface;
+
+using ec_curve_const = std::shared_ptr<ec_curve_iface const>;
+
+class ec_curve_iface {
   
-  public:
-    
-    virtual ~bin_iface();
-    
-    virtual uint8_t const *begin() const = 0;
-    
-    virtual size_t size() const = 0;
-    
-    virtual std::string to_hex() const = 0;
+public:
   
-    virtual bignum_const to_bignum() const = 0;
+  virtual ~ec_curve_iface();
+  
+  virtual bignum_const get_order() const = 0;
+  
 };
+
+ec_curve_const secp256k1();
   
 }

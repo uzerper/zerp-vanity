@@ -16,7 +16,9 @@
 */
 //==============================================================================
 
+#include <stdexcept>
 #include "bignum_impl.hpp"
+#include "bin_impl.hpp"
 
 namespace uzerper {
  
@@ -35,5 +37,37 @@ bignum_impl::~bignum_impl() {
   }
 }
 
+bin_const bignum_impl::to_bin() const {
+  
+  int const N{BN_num_bytes(bn)};
+  
+  bin_impl_ptr rv{std::make_shared<bin_impl>(N)};
+  
+  if (BN_bn2bin(bn, rv->data.data()) != N) {
+    throw std::runtime_error("Error converting bignum to binary");
+  }
+  
+  return rv;
+  
+}
+
+bignum_ctx::bignum_ctx() {
+  
+  ctx = BN_CTX_new();
+  
+  if (!ctx) {
+    throw std::runtime_error("Error creating bignum context");
+  }
+}
+  
+bignum_ctx::~bignum_ctx() {
+  
+  BN_CTX_free(ctx);
+  
+}
+  
+BN_CTX *bignum_ctx::operator()() {
+  return ctx;
+}
   
 }

@@ -35,10 +35,27 @@ public:
   
   bignum_impl(BIGNUM *bn);
   
-  virtual ~bignum_impl();
+  ~bignum_impl();
+  
+  bin_const to_bin() const override;
   
   BIGNUM *bn;
   
+};
+
+class bignum_ctx {
+  
+public:
+  
+  bignum_ctx();
+  
+  ~bignum_ctx();
+  
+  BN_CTX *operator()();
+  
+private:
+  
+  BN_CTX *ctx;
 };
   
 }

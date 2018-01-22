@@ -18,20 +18,18 @@
 
 #pragma once
 
-#include <memory>
+#include "forward_decl.hpp"
+#include "bin.hpp"
 
 namespace uzerper {
-  
-class bignum_iface;
-  
-using bignum = std::shared_ptr<bignum_iface>;
-using bignum_const = std::shared_ptr<bignum_iface const>;
   
 class bignum_iface {
   
 public:
   
   virtual ~bignum_iface();
+  
+  virtual bin_const to_bin() const = 0;
   
 };
   
