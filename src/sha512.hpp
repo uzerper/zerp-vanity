@@ -23,5 +23,25 @@
 namespace uzerper {
  
 bin_const sha512(uint8_t const *data, size_t size);
+
+class sha512_ctx_iface;
+
+using sha512_ctx = std::shared_ptr<sha512_ctx_iface>;
+
+using sha512_ctx_const = std::shared_ptr<sha512_ctx_iface const>;
+
+class sha512_ctx_iface {
+  
+public:
+  
+  virtual ~sha512_ctx_iface();
+  
+  virtual sha512_ctx_const add(uint8_t const *data, size_t size) const = 0;
+  
+  virtual bin_const finalize() const = 0;
+  
+};
+
+sha512_ctx_const create_sha512_ctx();
   
 }

@@ -22,11 +22,22 @@
 static std::size_t const SHA_INPUT_1_LEN{112};
 static uint8_t const sha_input_1[SHA_INPUT_1_LEN + 1] = "abcdefghbcdefghicdefghijdefghijkefghijklfghijklmghijklmnhijklmnoijklmnopjklmnopqklmnopqrlmnopqrsmnopqrstnopqrstu";
 
-TEST_CASE("SHA-512 1") {
+TEST_CASE("One shot SHA-512 1") {
   
   using namespace uzerper;
  
   std::string s{sha512(sha_input_1, SHA_INPUT_1_LEN)->to_hex()};
+  
+  REQUIRE(s == "8e959b75dae313da8cf4f72814fc143f8f7779c6eb9f7fa17299aeadb6889018501d289e4900f7e4331b99dec4b5433ac7d329eeb6dd26545e96e55b874be909");
+}
+
+TEST_CASE("add/finalize SHA-512 1") {
+  
+  using namespace uzerper;
+  
+  sha512_ctx_const ctx{create_sha512_ctx()};
+  
+  std::string s{ctx->add(sha_input_1, 13)->add(sha_input_1 + 13, SHA_INPUT_1_LEN - 13)->finalize()->to_hex()};
   
   REQUIRE(s == "8e959b75dae313da8cf4f72814fc143f8f7779c6eb9f7fa17299aeadb6889018501d289e4900f7e4331b99dec4b5433ac7d329eeb6dd26545e96e55b874be909");
 }
