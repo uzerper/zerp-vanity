@@ -72,6 +72,30 @@ bignum_const create_bignum(uint8_t const *data, size_t size) {
   return rv;
 }
 
+bool operator<(bignum_iface const &lhs, bignum_iface const &rhs) {
+  return (lhs.compare(rhs) < 0);
+}
+
+bool operator<=(bignum_iface const &lhs, bignum_iface const &rhs) {
+  return (lhs.compare(rhs) < 1);
+}
+
+bool operator==(bignum_iface const &lhs, bignum_iface const &rhs) {
+  return (lhs.compare(rhs) == 0);
+}
+
+bool operator!=(bignum_iface const &lhs, bignum_iface const &rhs) {
+  return (lhs.compare(rhs) != 0);
+}
+
+bool operator>(bignum_iface const &lhs, bignum_iface const &rhs) {
+  return (lhs.compare(rhs) > 0);
+}
+
+bool operator>=(bignum_iface const &lhs, bignum_iface const &rhs) {
+  return (lhs.compare(rhs) >= 0);
+}
+
 bignum_ctx::bignum_ctx() {
   
   ctx = BN_CTX_new();

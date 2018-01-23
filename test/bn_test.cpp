@@ -37,6 +37,8 @@ TEST_CASE("Bignum compare 1") {
   REQUIRE(bn2->to_bin()->to_hex() == "ff342102");
   REQUIRE(bn3->to_bin()->to_hex() == "ff342103");
   
+  // compare
+  
   REQUIRE(bn1->compare(*bn1) == 0);
   REQUIRE(bn1->compare(*bn2) == -1);
   REQUIRE(bn1->compare(*bn3) == -1);
@@ -48,5 +50,90 @@ TEST_CASE("Bignum compare 1") {
   REQUIRE(bn3->compare(*bn1) == 1);
   REQUIRE(bn3->compare(*bn2) == 1);
   REQUIRE(bn3->compare(*bn3) == 0);
+  
+  // <
+  
+  REQUIRE(!(*bn1 < *bn1));
+  REQUIRE(*bn1 < *bn2);
+  REQUIRE(*bn1 < *bn3);
+
+  REQUIRE(!(*bn2 < *bn1));
+  REQUIRE(!(*bn2 < *bn2));
+  REQUIRE(*bn2 < *bn3);
+  
+  REQUIRE(!(*bn3 < *bn1));
+  REQUIRE(!(*bn3 < *bn2));
+  REQUIRE(!(*bn3 < *bn3));
+  
+  // <=
+  
+  REQUIRE(*bn1 <= *bn1);
+  REQUIRE(*bn1 <= *bn2);
+  REQUIRE(*bn1 <= *bn3);
+
+  REQUIRE(!(*bn2 <= *bn1));
+  REQUIRE(*bn2 <= *bn2);
+  REQUIRE(*bn2 <= *bn3);
+  
+  REQUIRE(!(*bn3 <= *bn1));
+  REQUIRE(!(*bn3 <= *bn2));
+  REQUIRE(*bn3 <= *bn3);
+  
+  // ==
+  
+  REQUIRE(*bn1 == *bn1);
+  REQUIRE(!(*bn1 == *bn2));
+  REQUIRE(!(*bn1 == *bn3));
+
+  REQUIRE(!(*bn2 == *bn1));
+  REQUIRE(*bn2 == *bn2);
+  REQUIRE(!(*bn2 == *bn3));
+  
+  REQUIRE(!(*bn3 == *bn1));
+  REQUIRE(!(*bn3 == *bn2));
+  REQUIRE(*bn3 == *bn3);
+
+  // !=
+  
+  REQUIRE(!(*bn1 != *bn1));
+  REQUIRE(*bn1 != *bn2);
+  REQUIRE(*bn1 != *bn3);
+
+  REQUIRE(*bn2 != *bn1);
+  REQUIRE(!(*bn2 != *bn2));
+  REQUIRE(*bn2 != *bn3);
+  
+  REQUIRE(*bn3 != *bn1);
+  REQUIRE(*bn3 != *bn2);
+  REQUIRE(!(*bn3 != *bn3));
+
+  // >
+  
+  REQUIRE(!(*bn1 > *bn1));
+  REQUIRE(!(*bn1 > *bn2));
+  REQUIRE(!(*bn1 > *bn3));
+
+  REQUIRE(*bn2 > *bn1);
+  REQUIRE(!(*bn2 > *bn2));
+  REQUIRE(!(*bn2 > *bn3));
+  
+  REQUIRE(*bn3 > *bn1);
+  REQUIRE(*bn3 > *bn2);
+  REQUIRE(!(*bn3 > *bn3));
+
+  // >=
+  
+  REQUIRE(*bn1 >= *bn1);
+  REQUIRE(!(*bn1 >= *bn2));
+  REQUIRE(!(*bn1 >= *bn3));
+
+  REQUIRE(*bn2 >= *bn1);
+  REQUIRE(*bn2 >= *bn2);
+  REQUIRE(!(*bn2 >= *bn3));
+  
+  REQUIRE(*bn3 >= *bn1);
+  REQUIRE(*bn3 >= *bn2);
+  REQUIRE(*bn3 >= *bn3);
+
   
 }

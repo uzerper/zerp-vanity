@@ -36,5 +36,13 @@ public:
 };
 
 bignum_const create_bignum(uint8_t const *data, size_t size);
-  
+
+bool operator<(bignum_iface const &lhs, bignum_iface const &rhs);
+bool operator<=(bignum_iface const &lhs, bignum_iface const &rhs);
+bool operator==(bignum_iface const &lhs, bignum_iface const &rhs);
+bool operator!=(bignum_iface const &lhs, bignum_iface const &rhs);
+bool operator>(bignum_iface const &lhs, bignum_iface const &rhs);
+bool operator>=(bignum_iface const &lhs, bignum_iface const &rhs);
+
+
 }
