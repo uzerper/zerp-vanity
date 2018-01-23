@@ -19,6 +19,7 @@
 #include <cstring>
 #include <stdexcept>
 #include <string>
+#include <openssl/sha.h>
 #include "../base58.hpp"
 
 namespace uzerper {
@@ -181,6 +182,32 @@ std::vector<uint8_t> base58_decode(char const *b58, std::size_t b58_length, base
   std::vector<uint8_t> b256(b256_length);
   
   return std::move(decode_base_x(b58, b58_length, select_alphabet(encoding), b256.data()));
+}
+
+std::string base58check_encode(uint8_t const *prefix, std::size_t prefix_length, uint8_t const *b256, 
+  std::size_t b256_length, base58_encoding encoding) {
+  
+  size_t const payload_size{prefix_length + b256_length};
+  size_t const buf_size{payload_size + 4};
+  
+  std::vector<uint8_t> buf(buf_size);
+  
+  uint8_t * const buf_data{buf.data()};
+  
+  memcpy(buf_data, prefix, prefix_length);
+  
+  memcpy(buf_data + prefix_length, b256, b256_length);
+  
+  uint8_t digest[SHA256_DIGEST_LENGTH];
+  
+  SHA256(buf_data, payload_size, digest);
+  
+  SHA256(digest, SHA256_DIGEST_LENGTH, digest);
+  
+  memcpy(buf_data + payload_size, digest, 4);
+  
+  return base58_encode(buf_data, buf_size, encoding);
+  
 }
 
 }

@@ -65,3 +65,16 @@ TEST_CASE("Invalid base58") {
   }
   
 }
+
+TEST_CASE("Ripple base58check") {
+  
+  using namespace uzerper;
+  
+  uint8_t prefix{33};
+  
+  uint8_t data[16] = {15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0};
+  
+  REQUIRE(base58check_encode(&prefix, 1, data, 16, base58_encoding::ripple) 
+    == "spu7rNZgzUhgECbdj2QP8qV3B8iem");
+
+}

@@ -32,4 +32,7 @@ std::string base58_encode(uint8_t const *b256, std::size_t b256_length, base58_e
 
 std::vector<uint8_t> base58_decode(char const *b58, std::size_t b58_length, base58_encoding encoding);
 
+std::string base58check_encode(uint8_t const *prefix, std::size_t prefix_length, uint8_t const *b256, 
+  std::size_t b256_length, base58_encoding encoding);
+
 }
