@@ -31,6 +31,10 @@ public:
   
   virtual bin_const to_bin() const = 0;
   
+  virtual int compare(bignum_iface const &rhs) const = 0;
+  
 };
+
+bignum_const create_bignum(uint8_t const *data, size_t size);
   
 }

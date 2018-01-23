@@ -39,6 +39,8 @@ public:
   
   bin_const to_bin() const override;
   
+  int compare(bignum_iface const &rhs) const override;
+  
   BIGNUM *bn;
   
 };

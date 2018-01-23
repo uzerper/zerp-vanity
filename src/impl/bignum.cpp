@@ -51,6 +51,27 @@ bin_const bignum_impl::to_bin() const {
   
 }
 
+int bignum_impl::compare(bignum_iface const &rhs) const {
+  
+  bignum_impl const &rhs_impl{static_cast<bignum_impl const &>(rhs)};
+  
+  return BN_cmp(bn, rhs_impl.bn);
+  
+}
+
+bignum_const create_bignum(uint8_t const *data, size_t size) {
+  
+  bignum_impl_ptr rv{std::make_shared<bignum_impl>(
+    BN_bin2bn(data, size, NULL)
+  )};
+  
+  if (!rv->bn) {
+    throw std::runtime_error("Error creating bignum from buffer");
+  }
+  
+  return rv;
+}
+
 bignum_ctx::bignum_ctx() {
   
   ctx = BN_CTX_new();
