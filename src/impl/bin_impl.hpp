@@ -43,6 +43,8 @@ public:
   
   bignum_const to_bignum() const override;
   
+  bin_const slice(size_t start, size_t end) const override;
+  
   std::vector<uint8_t> data;
   
 };

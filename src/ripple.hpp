@@ -18,48 +18,10 @@
 
 #pragma once
 
-#include <openssl/bn.h>
-#include "../bignum.hpp"
+#include "bignum.hpp"
 
 namespace uzerper {
   
-class bignum_impl;
-
-using bignum_impl_ptr = std::shared_ptr<bignum_impl>;
-  
-class bignum_impl: public bignum_iface {
-  
-public:
-  
-  bignum_impl();
-  
-  bignum_impl(BIGNUM *bn);
-  
-  ~bignum_impl();
-  
-  bin_const to_bin() const override;
-  
-  int compare(bignum_iface const &rhs) const override;
-  
-  bool is_zero() const override;
-  
-  BIGNUM *bn;
-  
-};
-
-class bignum_ctx {
-  
-public:
-  
-  bignum_ctx();
-  
-  ~bignum_ctx();
-  
-  BN_CTX *operator()();
-  
-private:
-  
-  BN_CTX *ctx;
-};
+bignum_const get_private_generator(uint8_t const *entropy);
   
 }

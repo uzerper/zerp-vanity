@@ -68,5 +68,21 @@ bignum_const bin_impl::to_bignum() const {
   
   return rv;
 }
+
+bin_const bin_impl::slice(size_t start, size_t end) const {
+  
+  size_t const s(std::min(start, data.size()));
+  size_t const e(std::min(end, data.size()));
+  
+  if (s >= e) return std::make_shared<bin_impl>(0);
+  
+  size_t const length{e - s};
+  
+  bin_impl_ptr rv{std::make_shared<bin_impl>(length)};
+  
+  memcpy(rv->data.data(), data.data() + s, length);
+  
+  return rv;
+}
   
 }

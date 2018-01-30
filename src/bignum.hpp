@@ -33,6 +33,8 @@ public:
   
   virtual int compare(bignum_iface const &rhs) const = 0;
   
+  virtual bool is_zero() const = 0;
+  
 };
 
 bignum_const create_bignum(uint8_t const *data, size_t size);

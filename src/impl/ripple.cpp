@@ -16,50 +16,36 @@
 */
 //==============================================================================
 
-#pragma once
+#include "../sha512.hpp"
+#include "../ec.hpp"
 
-#include <openssl/bn.h>
-#include "../bignum.hpp"
+#include <iostream>
 
 namespace uzerper {
-  
-class bignum_impl;
 
-using bignum_impl_ptr = std::shared_ptr<bignum_impl>;
+bignum_const get_private_generator(uint8_t const *entropy) {
   
-class bignum_impl: public bignum_iface {
+  sha512_ctx_const ctx{create_sha512_ctx()->add(entropy, 16)};
   
-public:
+  bignum_const secp256k1_order{secp256k1()->get_order()};
   
-  bignum_impl();
+  uint32_t i{0};
   
-  bignum_impl(BIGNUM *bn);
+  bignum_const candidate;
   
-  ~bignum_impl();
+  while (true) {
+    
+    candidate = ctx->add(i)->finalize()->slice(0,32)->to_bignum();
+    
+    if (!candidate->is_zero() 
+      && *candidate < *secp256k1_order) break;
+    
+    i++;
+    
+  }
   
-  bin_const to_bin() const override;
+  return candidate;
   
-  int compare(bignum_iface const &rhs) const override;
-  
-  bool is_zero() const override;
-  
-  BIGNUM *bn;
-  
-};
+}
 
-class bignum_ctx {
-  
-public:
-  
-  bignum_ctx();
-  
-  ~bignum_ctx();
-  
-  BN_CTX *operator()();
-  
-private:
-  
-  BN_CTX *ctx;
-};
-  
 }

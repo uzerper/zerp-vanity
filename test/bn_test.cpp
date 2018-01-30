@@ -21,9 +21,26 @@ static uint8_t BN3[4] = {0xFF, 0x34, 0x21, 0x03};
 #include "catch.hpp"
 #include <bignum.hpp>
 
+static uint8_t Z[4] = {0,0,0,0};
 static uint8_t BN1[4] = {0xFF, 0x34, 0x21, 0x01};
 static uint8_t BN2[4] = {0xFF, 0x34, 0x21, 0x02};
 static uint8_t BN3[4] = {0xFF, 0x34, 0x21, 0x03};
+
+TEST_CASE("Bignum is zero") {
+  
+  using namespace uzerper;
+  
+  bignum_const z{create_bignum(Z, 4)};
+  bignum_const bn1{create_bignum(BN1, 4)};
+  bignum_const bn2{create_bignum(BN2, 4)};
+  bignum_const bn3{create_bignum(BN3, 4)};
+
+  REQUIRE(z->is_zero());
+  REQUIRE(!bn1->is_zero());
+  REQUIRE(!bn2->is_zero());
+  REQUIRE(!bn3->is_zero());
+  
+}
 
 TEST_CASE("Bignum compare 1") {
   

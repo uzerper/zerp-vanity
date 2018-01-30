@@ -38,6 +38,8 @@ public:
   
   virtual sha512_ctx_const add(uint8_t const *data, size_t size) const = 0;
   
+  virtual sha512_ctx_const add(uint32_t data) const = 0;
+  
   virtual bin_const finalize() const = 0;
   
 };

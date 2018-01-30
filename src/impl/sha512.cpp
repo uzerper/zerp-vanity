@@ -63,6 +63,19 @@ public:
     return rv;
   }
   
+  sha512_ctx_const add(uint32_t data) const override {
+    
+    uint8_t buf[4] = {
+      static_cast<uint8_t>((data >> 24) & 0xFF),
+      static_cast<uint8_t>((data >> 16) & 0xFF),
+      static_cast<uint8_t>((data >> 8) & 0xFF),
+      static_cast<uint8_t>(data & 0xFF),
+    };
+    
+    return add(buf, 4);
+    
+  }
+  
   bin_const finalize() const override {
     
     bin_impl_ptr rv{std::make_shared<bin_impl>(SHA512_DIGEST_LENGTH)};

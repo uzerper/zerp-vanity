@@ -59,6 +59,12 @@ int bignum_impl::compare(bignum_iface const &rhs) const {
   
 }
 
+bool bignum_impl::is_zero() const {
+  
+  return BN_is_zero(bn);
+  
+}
+
 bignum_const create_bignum(uint8_t const *data, size_t size) {
   
   bignum_impl_ptr rv{std::make_shared<bignum_impl>(

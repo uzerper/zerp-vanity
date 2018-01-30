@@ -37,6 +37,8 @@ class bin_iface {
     virtual std::string to_hex() const = 0;
   
     virtual bignum_const to_bignum() const = 0;
+    
+    virtual bin_const slice(size_t start, size_t end) const = 0;
 };
   
 }

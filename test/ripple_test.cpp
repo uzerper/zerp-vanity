@@ -16,50 +16,16 @@
 */
 //==============================================================================
 
-#pragma once
+#include "catch.hpp"
+#include <ripple.hpp>
 
-#include <openssl/bn.h>
-#include "../bignum.hpp"
-
-namespace uzerper {
+TEST_CASE("Get private generator") {
   
-class bignum_impl;
-
-using bignum_impl_ptr = std::shared_ptr<bignum_impl>;
+  using namespace uzerper;
   
-class bignum_impl: public bignum_iface {
+  uint8_t data[16] = {15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0};
   
-public:
-  
-  bignum_impl();
-  
-  bignum_impl(BIGNUM *bn);
-  
-  ~bignum_impl();
-  
-  bin_const to_bin() const override;
-  
-  int compare(bignum_iface const &rhs) const override;
-  
-  bool is_zero() const override;
-  
-  BIGNUM *bn;
-  
-};
-
-class bignum_ctx {
-  
-public:
-  
-  bignum_ctx();
-  
-  ~bignum_ctx();
-  
-  BN_CTX *operator()();
-  
-private:
-  
-  BN_CTX *ctx;
-};
+  REQUIRE(get_private_generator(data)->to_bin()->to_hex()
+    == "52d89a2fa8d1e58bb85788ed7d1f37ad56d2a83c1d55533ab5f6ce25b4a74ffb");
   
 }

@@ -14,6 +14,12 @@ When you use `generateAddress` in `ripple-lib`, or `wallet-propose` in `rippled`
 
 and convert it to Base58, using the alphabet `rpshnaf39wBUDNEGHJKLM4PQRST7VWXYZ2bcdeCg65jkm8oFqi1tuvAxyz`.
 
+To generate an address, you start by computing the private generator. Private generator candidates are
+
+`SHA512( seed || i )[0..15], i = 0,1,...`,
+
+i.e. the first 16 bytes of the SHA-512 digest resulting from the seed concatenated with i (which is a big endian unsigned 32 bit integer). The private generator is the non-zero candidate with the lowest i that is less than the secp256k1 order.
+
 ## Progress
 
 Currently, I am experimenting with an idea I have of very opaque, memory and thread safe C++ interfaces, applied on the proven but not very safe OpenSLL crypto API.
